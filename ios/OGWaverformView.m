@@ -126,7 +126,7 @@
     if(play){
         [self playAudio];
     }else{
-        [self pauseAudio];
+        [self setStop:true];
     }
 }
 
@@ -147,7 +147,17 @@
 
 -(void)setStop:(BOOL)stop{
     if(stop){
+        [self pauseAudio];
         [_player seekToTime:CMTimeMake(0,1)];
+        [UIView animateWithDuration:0.1
+                         animations:^{
+                             CGRect frame = _scrubView.frame;
+                             frame.origin.x = 0.0;
+                             _scrubView.frame = frame;
+                         }];
+        [_delegate OGWaveFinishPlay:self componentID:_componentID];
+       
+//        [self pauseAudio];
 //        [_player see];
     }
 }
