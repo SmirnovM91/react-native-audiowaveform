@@ -5,13 +5,22 @@
 
 "use strict";
 import React, { PureComponent } from "react";
-import { Platform, processColor, DeviceEventEmitter, requireNativeComponent } from "react-native";
+import {
+  Platform,
+  processColor,
+  DeviceEventEmitter,
+  requireNativeComponent,
+  NativeModules,
+} from "react-native";
 
 import resolveAssetSource from "react-native/Libraries/Image/resolveAssetSource";
 
 type StateType = { componentID: string };
 
-export default class WaveForm extends PureComponent<WaveObjectPropsType, StateType> {
+export default class WaveForm extends PureComponent<
+  WaveObjectPropsType,
+  StateType
+> {
   constructor(props) {
     super(props);
     this._onPress = this._onPress.bind(this);
@@ -20,9 +29,11 @@ export default class WaveForm extends PureComponent<WaveObjectPropsType, StateTy
 
   _makeid() {
     var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var possible =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
   }
@@ -36,9 +47,16 @@ export default class WaveForm extends PureComponent<WaveObjectPropsType, StateTy
 
   _onFinishPlay(e) {
     const event = Platform.OS === "ios" ? e.nativeEvent : e;
-    if (event.componentID === this.state.componentID && this.props.onFinishPlay) {
+    if (
+      event.componentID === this.state.componentID &&
+      this.props.onFinishPlay
+    ) {
       this.props.onFinishPlay(event);
     }
+  }
+
+  stopPlayer() {
+    NativeModules.OGWaveManager.stopPlayer();
   }
 
   componentWillMount() {
@@ -59,13 +77,15 @@ export default class WaveForm extends PureComponent<WaveObjectPropsType, StateTy
     }
 
     const isNetwork = !!(uri && uri.match(/^https?:/));
-    const isAsset = !!(uri && uri.match(/^(assets-library|file|content|ms-appx|ms-appdata):/));
+    const isAsset = !!(
+      uri && uri.match(/^(assets-library|file|content|ms-appx|ms-appdata):/)
+    );
 
     const nativeProps = {
       ...this.props,
       waveFormStyle: {
         ogWaveColor: processColor(this.props.waveFormStyle.waveColor),
-        ogScrubColor: processColor(this.props.waveFormStyle.scrubColor)
+        ogScrubColor: processColor(this.props.waveFormStyle.scrubColor),
       },
 
       src: {
@@ -74,12 +94,18 @@ export default class WaveForm extends PureComponent<WaveObjectPropsType, StateTy
         isAsset,
         type: source.type,
         mainVer: source.mainVer || 0,
-        patchVer: source.patchVer || 0
+        patchVer: source.patchVer || 0,
       },
-      componentID
+      componentID,
     };
 
-    return <OGWaverformView {...nativeProps} onPress={this._onPress} onFinishPlay={this._onFinishPlay} />;
+    return (
+      <OGWaverformView
+        {...nativeProps}
+        onPress={this._onPress}
+        onFinishPlay={this._onFinishPlay}
+      />
+    );
   }
 }
 

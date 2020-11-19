@@ -147,7 +147,8 @@
 
 -(void)setStop:(BOOL)stop{
     if(stop){
-        //[_player stop];
+        [_player seekToTime:CMTimeMake(0,1)];
+//        [_player see];
     }
 }
 
