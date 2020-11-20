@@ -26,6 +26,7 @@ export default class WaveForm extends PureComponent<
     this._onPress = this._onPress.bind(this);
     this._onFinishPlay = this._onFinishPlay.bind(this);
   }
+  state = {};
 
   _makeid() {
     var text = "";
