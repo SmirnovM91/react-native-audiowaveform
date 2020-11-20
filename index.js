@@ -59,7 +59,7 @@ export default class WaveForm extends PureComponent<
     NativeModules.OGWaveManager.stopPlayer();
   }
 
-  componentWillMount() {
+  componentDidMount() {
     DeviceEventEmitter.addListener("OGOnPress", this._onPress);
     DeviceEventEmitter.addListener("OGFinishPlay", this._onFinishPlay);
     const componentID = this._makeid();
