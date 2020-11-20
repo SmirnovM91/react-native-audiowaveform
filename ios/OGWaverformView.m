@@ -476,7 +476,11 @@
     return self;
 }
 
-
+- (void)removeFromSuperview
+{
+    [self setStop:true];
+    [super removeFromSuperview];
+}
 
 
 #pragma mark OGWaveDelegateProtocol

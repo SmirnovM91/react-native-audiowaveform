@@ -38,11 +38,6 @@ RCT_EXPORT_MODULE();
     return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(stopPlayer:void)
-{
-    [view setStop:true];
-}
-
 #pragma mark OGWaveDelegateProtocol
 -(void)OGWaveOnTouch:(OGWaverformView *)waveformView componentID:(NSString *)componentID{
     if(!waveformView.onPress)
